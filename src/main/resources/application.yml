@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: place
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${GH_OAUTH_CLIENT_ID}
+            client-secret: ${GH_OAUTH_CLIENT_SECRET}
+            scope:
+              - read:user
+              - user:email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            client-authentication-method: basic
+            authorization-grant-type: authorization_code
+            provider:
+              github:
+                authorization-uri: https://github.com/login/oauth/authorize
+                token-uri: https://github.com/login/oauth/access_token
+                user-info-uri: https://api.github.com/user
+  r2dbc:
+    url: r2dbc:h2:mem:///place
+    username: sa
+    password:
+    pool:
+      enabled: true
+
+server:
+  port: 9000
